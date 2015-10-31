@@ -1,0 +1,4 @@
+
+
+run:
+	ruby complie.rb
