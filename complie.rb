@@ -15,7 +15,7 @@ require 'find'
 require 'fileutils'
 
 SRC = './src'
-OUTDIR = './out'
+OUTDIR = './lib'
 
 def complieTheES6File(fileName)
     code = File.read(fileName)
@@ -52,8 +52,15 @@ end
         end
         if type == 'File'
             # puts "#{type}: #{f}" 
-            content = complieTheES6File(f)
-            wirteToES5File(f, content)
+            # puts f[/\.[^\.]+$/]
+            postfix = File.extname(f)
+            if postfix == '.js' || postfix == '.es6'
+                content = complieTheES6File(f)
+                wirteToES5File(f, content)
+            else 
+                path = f.gsub(SRC, OUTDIR)
+                FileUtils.cp f, path 
+            end
         end
     end 
 end
